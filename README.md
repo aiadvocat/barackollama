@@ -2,8 +2,6 @@
 
 A Streamlit-based chat interface for Ollama, featuring Barack Obama-themed interactions. This application provides a user-friendly interface to interact with Ollama's LLM models, with customizable system prompts and persistent chat history.
 
-![Barack Ollama Interface](src/assets/ObamaLaugh.png)
-
 ## Features
 
 - 🤖 Clean chat interface for Ollama interactions
