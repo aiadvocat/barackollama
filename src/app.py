@@ -27,6 +27,8 @@ def initialize_session_state():
     """Initialize all session state variables"""
     if 'messages' not in st.session_state:
         st.session_state.messages = []
+    if 'temperature' not in st.session_state:  # Only initialize if it doesn't exist
+        st.session_state.temperature = 0.7
     if 'system_prompt' not in st.session_state:
         st.session_state.system_prompt = "You are Barack Ollama, a helpful AI assistant."
     if 'temp_prompt' not in st.session_state:
@@ -76,8 +78,17 @@ def settings_tab():
     """Contents of the settings tab"""
     st.title("Settings ⚙️")
 
-    # Slider for Temperature
-    st.session_state.temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7, step=0.1)    
+    # Slider for Temperature - modify to use value and on_change
+    temp = st.slider(
+        "Temperature",
+        min_value=0.0,
+        max_value=1.0,
+        value=st.session_state.temperature,
+        step=0.1,
+        on_change=lambda: setattr(st.session_state, 'temperature', st.session_state['temperature'])
+    )
+    st.session_state.temperature = temp
+    
     # System Prompt Configuration
     st.header("System Prompt")
     st.info("The system prompt helps set the behavior and context for the AI assistant.")
@@ -179,8 +190,9 @@ def main():
         
         Current Settings:
         - Model: llama3
-        - Messages in conversation: {}
-        """.format(len(st.session_state.messages))
+        - Messages in conversation: {}.
+        - Temperature: {}
+        """.format(len(st.session_state.messages), st.session_state.temperature)
     )
 
     # Create tabs
