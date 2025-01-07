@@ -50,7 +50,8 @@ def query_ollama(messages):
             json={
                 "model": "llama3",
                 "messages": full_messages,
-                "stream": False
+                "stream": False,
+                "temperature": st.session_state.temperature
             }
         )
         response.raise_for_status()
@@ -74,7 +75,9 @@ def update_system_prompt(prompt):
 def settings_tab():
     """Contents of the settings tab"""
     st.title("Settings ⚙️")
-    
+
+    # Slider for Temperature
+    st.session_state.temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7, step=0.1)    
     # System Prompt Configuration
     st.header("System Prompt")
     st.info("The system prompt helps set the behavior and context for the AI assistant.")
